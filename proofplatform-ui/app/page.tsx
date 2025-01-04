@@ -1,140 +1,81 @@
-// import Image from "next/image";
-
-// export default function Home() {
-//   return (
-//     <div className="grid grid-rows-[20px_1fr_20px] items-center justify-items-center min-h-screen p-8 pb-20 gap-16 sm:p-20 font-[family-name:var(--font-geist-sans)]">
-//       <main className="flex flex-col gap-8 row-start-2 items-center sm:items-start">
-//         <Image
-//           className="dark:invert"
-//           src="/next.svg"
-//           alt="Next.js logo"
-//           width={180}
-//           height={38}
-//           priority
-//         />
-//         <ol className="list-inside list-decimal text-sm text-center sm:text-left font-[family-name:var(--font-geist-mono)]">
-//           <li className="mb-2">
-//             Get started by editing{" "}
-//             <code className="bg-black/[.05] dark:bg-white/[.06] px-1 py-0.5 rounded font-semibold">
-//               app/page.tsx
-//             </code>
-//             .
-//           </li>
-//           <li>Save and see your changes instantly.</li>
-//         </ol>
-
-//         <div className="flex gap-4 items-center flex-col sm:flex-row">
-//           <a
-//             className="rounded-full border border-solid border-transparent transition-colors flex items-center justify-center bg-foreground text-background gap-2 hover:bg-[#383838] dark:hover:bg-[#ccc] text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5"
-//             href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-//             target="_blank"
-//             rel="noopener noreferrer"
-//           >
-//             <Image
-//               className="dark:invert"
-//               src="/vercel.svg"
-//               alt="Vercel logomark"
-//               width={20}
-//               height={20}
-//             />
-//             Deploy now
-//           </a>
-//           <a
-//             className="rounded-full border border-solid border-black/[.08] dark:border-white/[.145] transition-colors flex items-center justify-center hover:bg-[#f2f2f2] dark:hover:bg-[#1a1a1a] hover:border-transparent text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5 sm:min-w-44"
-//             href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-//             target="_blank"
-//             rel="noopener noreferrer"
-//           >
-//             Read our docs
-//           </a>
-//         </div>
-//       </main>
-//       <footer className="row-start-3 flex gap-6 flex-wrap items-center justify-center">
-//         <a
-//           className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-//           href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-//           target="_blank"
-//           rel="noopener noreferrer"
-//         >
-//           <Image
-//             aria-hidden
-//             src="/file.svg"
-//             alt="File icon"
-//             width={16}
-//             height={16}
-//           />
-//           Learn
-//         </a>
-//         <a
-//           className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-//           href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-//           target="_blank"
-//           rel="noopener noreferrer"
-//         >
-//           <Image
-//             aria-hidden
-//             src="/window.svg"
-//             alt="Window icon"
-//             width={16}
-//             height={16}
-//           />
-//           Examples
-//         </a>
-//         <a
-//           className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-//           href="https://nextjs.org?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-//           target="_blank"
-//           rel="noopener noreferrer"
-//         >
-//           <Image
-//             aria-hidden
-//             src="/globe.svg"
-//             alt="Globe icon"
-//             width={16}
-//             height={16}
-//           />
-//           Go to nextjs.org →
-//         </a>
-//       </footer>
-//     </div>
-//   );
-// }
-
 "use client";
-import { useState } from 'react'
+import { useState } from "react";
 
 export default function Home() {
-  const [proof, setProof] = useState('')
-  const [output, setOutput] = useState('')
-  const [error, setError] = useState('')
+  const [selectedProof, setSelectedProof] = useState(null);
+  const [proofText, setProofText] = useState("");
 
-  const handleSubmit = async () => {
-    const response = await fetch('/api/proof/validate', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ proofCode: proof }),
-    })
+  const proofs = [
+    { id: 1, title: "Proof 1: Addition is Commutative" },
+    { id: 2, title: "Proof 2: Multiplication is Associative" },
+    { id: 3, title: "Proof 3: Basic Induction" },
+  ];
 
-    const data = await response.json()
-    setOutput(data.output)
-    setError(data.error || '')
-  }
+  const handleSubmit = () => {
+    console.log("Proof submitted:", proofText);
+  };
 
   return (
-    <div className="p-8">
-      <h1 className="text-2xl font-bold mb-4">Proof Validator</h1>
-      <textarea
-        className="w-full p-2 border rounded mb-4"
-        rows={6}
-        value={proof}
-        onChange={(e) => setProof(e.target.value)}
-        placeholder="Enter your Lean proof here..."
-      />
-      <button className="px-4 py-2 bg-blue-500 text-white rounded" onClick={handleSubmit}>
-        Submit
-      </button>
-      {output && <pre className="mt-4 p-4 bg-gray-100">{output}</pre>}
-      {error && <pre className="mt-4 p-4 bg-red-100">{error}</pre>}
+    <div className="min-h-screen flex flex-col bg-gray-50 text-gray-900">
+      {/* Top Navbar */}
+      <nav className="flex items-center justify-between p-4 bg-gray-800 text-white shadow">
+        <div className="text-2xl font-bold">ProofPlatform</div>
+        <div className="flex space-x-6">
+          <a href="/login" className="hover:underline">Log In</a>
+          <a href="/signup" className="hover:underline">Sign Up</a>
+          <a href="/scoreboard" className="hover:underline">Scoreboard</a>
+          <a href="#" className="hover:underline">Practice</a>
+        </div>
+      </nav>
+
+      {/* Main Grid Layout */}
+      <div className="grid grid-cols-[1fr_3fr] flex-grow p-8 gap-8">
+        {/* Left Sidebar (Proof List) */}
+        <aside className="bg-white shadow rounded-lg p-4 border">
+          <h2 className="text-lg font-semibold mb-4">Proofs</h2>
+          <ul className="space-y-2">
+            {proofs.map((proof) => (
+              <li
+                key={proof.id}
+                className={`p-2 rounded cursor-pointer ${
+                  selectedProof?.id === proof.id ? "bg-blue-100" : "hover:bg-gray-200"
+                }`}
+                onClick={() => setSelectedProof(proof)}
+              >
+                {proof.title}
+              </li>
+            ))}
+          </ul>
+        </aside>
+
+        {/* Right Editor Workspace */}
+        <main className="flex flex-col bg-white shadow rounded-lg p-6 border">
+          {selectedProof ? (
+            <>
+              <h2 className="text-xl font-semibold mb-4">{selectedProof.title}</h2>
+              <textarea
+                className="w-full h-64 p-4 border rounded focus:outline-none focus:ring focus:border-blue-300"
+                value={proofText}
+                onChange={(e) => setProofText(e.target.value)}
+                placeholder="Write your proof here..."
+              />
+              <button
+                onClick={handleSubmit}
+                className="mt-4 self-end bg-blue-500 text-white px-6 py-2 rounded hover:bg-blue-600"
+              >
+                Submit Proof
+              </button>
+            </>
+          ) : (
+            <p className="text-gray-500">Select a proof from the list to start writing.</p>
+          )}
+        </main>
+      </div>
+
+      {/* Footer */}
+      <footer className="p-4 bg-gray-800 text-white text-center">
+        Built with <a href="https://nextjs.org" className="underline">Next.js</a>
+      </footer>
     </div>
-  )
+  );
 }
